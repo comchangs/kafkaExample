@@ -7,7 +7,7 @@ import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static sun.plugin2.util.PojoUtil.toJson;
+import static work.jeong.murry.example.kafka.KafkaMessageUtils.serialize;
 
 public class Producer {
 
@@ -25,9 +25,8 @@ public class Producer {
       while (true) {
         System.out.println("Write");
         MessageContext messageContext = new MessageContext("title", "body");
-        MessageTask messageTask = new MessageTask(messageContext);
-
-        ProducerRecord<String, String> producerRecord = new ProducerRecord<>(topic,messageTask.getClass().getName(),toJson(messageTask));
+        Task task = new MessageTask(messageContext);
+        ProducerRecord<String, String> producerRecord = new ProducerRecord<>(topic, serialize(task));
         kafkaProducer.send(producerRecord);
         Thread.sleep(5000);
       }

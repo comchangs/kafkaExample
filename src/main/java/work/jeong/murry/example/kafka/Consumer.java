@@ -12,6 +12,8 @@ import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static work.jeong.murry.example.kafka.KafkaMessageUtils.deserialize;
+
 public class Consumer {
 
   public static void main(String[] args) {
@@ -33,11 +35,7 @@ public class Consumer {
         ConsumerRecords<String, String> consumerRecords = kafkaConsumer.poll(1000);
         System.out.println("polled: " + consumerRecords.count());
         for (ConsumerRecord record: consumerRecords) {
-          Gson gson = new Gson();
-          Type type = Class.forName((String) record.key());
-          System.out.println(type.getTypeName());
-          Task task = gson.fromJson((String) record.value(), type);
-          executorService.submit(task);
+          executorService.submit(deserialize((String) record.value()));
           System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
         }
       }
