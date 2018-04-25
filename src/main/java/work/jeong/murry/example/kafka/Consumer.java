@@ -1,12 +1,9 @@
 package work.jeong.murry.example.kafka;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
-import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
@@ -34,7 +31,7 @@ public class Consumer {
         System.out.println("poll");
         ConsumerRecords<String, String> consumerRecords = kafkaConsumer.poll(1000);
         System.out.println("polled: " + consumerRecords.count());
-        for (ConsumerRecord record: consumerRecords) {
+        for (ConsumerRecord record : consumerRecords) {
           executorService.submit(deserialize((String) record.value()));
           System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
         }
