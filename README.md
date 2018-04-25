@@ -1,3 +1,3 @@
 # kafkaExample
 
-How to implement of Kafka Consumer and Producer
+How to implement Kafka Consumer and Producer
